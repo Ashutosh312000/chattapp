@@ -30,6 +30,22 @@ exports.postmessage=(req,res,next)=>{
      }
 }
 
+exports.getmessage=async (req,res,next)=>{
+    try{
+        const messages =await Message.findAll({
+            include:User
+        })
+        return res.status(200).json(messages); 
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({err})
+    }
+     
+}
+
+
+
 
 
 
