@@ -9,5 +9,7 @@ const router = express.Router();
 
 router.post('/signup', userController.postuser);
 
+router.post('/login', userController.loginuser);
+
 
 module.exports = router;
