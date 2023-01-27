@@ -14,7 +14,7 @@ async function  signup(e){
         password:password
     }
 
-    axios.post('http://localhost:3000/user/signup',{userdetails})
+    axios.post('http://127.0.0.1:3000/user/signup',{userdetails})
     .then((response)=>{
         alert(`${response.data.message}`);
     })

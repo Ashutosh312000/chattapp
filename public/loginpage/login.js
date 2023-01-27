@@ -29,10 +29,11 @@ async function  login(e){
         password:password
     }
 
-   await  axios.post('http://localhost:3000/user/login',{logindetails})
+   await  axios.post('http://127.0.0.1:3000/user/login',{logindetails})
     .then((response)=>{
         localStorage.setItem('token',`${response.data.token}`) 
         alert(`${response.data.message}`);
+        window.location.href="../chatapp/chatapp.html" 
     })
     .catch(err=>{
         loginmessage(err.response.data.message);

@@ -1,0 +1,58 @@
+
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+#chatapp{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    width: 100vw;
+    flex-direction: column;
+}
+
+body h2{
+    text-align: center;
+
+}
+
+#messages{
+    width: 50%;
+    height: 50%;
+}
+
+#type{
+    
+    position: absolute;
+    bottom: 0px;
+    background-color: #2f4975;
+    width: 100%;
+    display: flex;
+}
+
+#type form{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 0.7%;
+    justify-content: center;
+}
+
+#typetext{
+    width: 50%;
+}
+
+#sendbtn {
+    padding: 0.2%;
+    margin-left: 0.5%;
+    width: 5%;
+}
+
+.messagecls{
+    background-color: rgb(57, 188, 144);
+    padding: 0.5%;
+}
