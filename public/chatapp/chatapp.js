@@ -1,23 +1,43 @@
 const message=document.getElementById('messages');
 const sendbtn=document.getElementById('sendbtn')
 const form=document.getElementById('form')
+const messagecls=document.getElementsByClassName('messagecls')
 
 
+window.addEventListener('DOMContentLoaded',()=>{
+    var flag=true;
+    setInterval( async () => {
+        const token=localStorage.getItem('token');
+        const response= await  axios.get(`http://localhost:3000/message/getmessage`,{headers:{"Authorization" : token}})
+        let myarr = response.data;
+        
+        if(myarr.length>messagecls.length){
+            if(flag==true){
+                for (let i = 0; i < myarr.length; i++) {
+                    const message=myarr[i].Message;
+                    const username=myarr[i].user.Name;
+                  createmessage(username,message);
+                  flag=false;
+                }
+            }
+            else{
+                const message=myarr[myarr.length-1].Message;
+                    const username=myarr[myarr.length-1].user.Name;
+                  createmessage(username,message);
+            }
+            
+        }
+       
+    }, 1000);
 
-window.addEventListener('DOMContentLoaded',async ()=>{
     
-    const token=localStorage.getItem('token');
-    const response= await  axios.get(`http://localhost:3000/message/getmessage`,{headers:{"Authorization" : token}})
-    let myarr = response.data;
-    for (let i = 0; i < myarr.length; i++) {
-        const message=myarr[i].Message;
-        const username=myarr[i].user.Name;
-      yourmessage(username,message);
-    }
+
+    
+ 
 
 })
 
-const yourmessage=(by,text)=>{
+const createmessage=(by,text)=>{
     const messagediv=document.createElement('div');
     messagediv.className='messagecls'
     const messagep=document.createElement('p')
@@ -40,8 +60,10 @@ async function send(e){
     try{
         e.preventDefault();
         const message=e.target.message.value;
-        yourmessage('You',`${message}`)
         const token=localStorage.getItem('token');
+        const decodeToken=parseJwt(token)
+        console.log(decodeToken)
+        createmessage(`${decodeToken.name}`,`${message}`)
         form.reset();
         const response= await  axios.post(`http://localhost:3000/message/postmessage`,{message},{headers:{"Authorization" : token}})
         
