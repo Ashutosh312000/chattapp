@@ -5,35 +5,49 @@ const messagecls=document.getElementsByClassName('messagecls')
 
 
 window.addEventListener('DOMContentLoaded',()=>{
-    var flag=true;
+    let messages=[];
+    stringifiedmessages=JSON.stringify(messages)
+    localStorage.setItem('messages',stringifiedmessages)
     setInterval( async () => {
+
         const token=localStorage.getItem('token');
-        const response= await  axios.get(`http://localhost:3000/message/getmessage`,{headers:{"Authorization" : token}})
+        const messagesstringified=localStorage.getItem('messages');
+        const messages=JSON.parse(messagesstringified)
+
+       
+        if(messages.length==0){
+            lastmessageid=-1;
+        }
+        else{
+            lastmessageid=messages[messages.length -1].id;
+        }
+
+       
+
+
+        const response= await  axios.get(`http://localhost:3000/message/getmessage?lastmessageid=${lastmessageid}`,{headers:{"Authorization" : token}})
         let myarr = response.data;
         
-        if(myarr.length>messagecls.length){
-            if(flag==true){
-                for (let i = 0; i < myarr.length; i++) {
-                    const message=myarr[i].Message;
-                    const username=myarr[i].user.Name;
-                  createmessage(username,message);
-                  flag=false;
-                }
-            }
-            else{
-                const message=myarr[myarr.length-1].Message;
-                    const username=myarr[myarr.length-1].user.Name;
-                  createmessage(username,message);
-            }
-            
+        
+       for(let i=0;i<myarr.length;i++){
+        messages.push({Message:response.data[i].Message,username:response.data[i].user.Name,id:response.data[i].id})
+        if(messages.length>15){
+            messages.shift();
+            console.log(messages)
         }
+       }
+       const messagesstringifiedagain=JSON.stringify(messages)
+       localStorage.setItem('messages',`${messagesstringifiedagain}`)
+        
+       message.innerHTML='';
+                for (let i = 0; i < messages.length; i++) {
+                    const message=messages[i].Message;
+                    const username=messages[i].username;
+                  createmessage(username,message);
+                }            
+        
        
     }, 1000);
-
-    
-
-    
- 
 
 })
 
@@ -61,15 +75,8 @@ async function send(e){
         e.preventDefault();
         const message=e.target.message.value;
         const token=localStorage.getItem('token');
-        const decodeToken=parseJwt(token)
-        console.log(decodeToken)
-        createmessage(`${decodeToken.name}`,`${message}`)
         form.reset();
-        const response= await  axios.post(`http://localhost:3000/message/postmessage`,{message},{headers:{"Authorization" : token}})
-        
-            console.log(response);
-        
-
+        const response= await  axios.post(`http://localhost:3000/message/postmessage`,{message},{headers:{"Authorization" : token}})    
     }
     catch(err){
         console.log(err)

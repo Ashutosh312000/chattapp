@@ -3,6 +3,8 @@ const User=require('../models/user');
 const Message=require('../models/message');
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken')
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const isstringvalid=(string)=>{
     if(string=="" || string==undefined){
@@ -32,10 +34,32 @@ exports.postmessage=(req,res,next)=>{
 
 exports.getmessage=async (req,res,next)=>{
     try{
-        const messages =await Message.findAll({
-            include:User
-        })
-        return res.status(200).json(messages); 
+        const {lastmessageid}=req.query;
+        console.log(lastmessageid);
+        if(lastmessageid==undefined){
+            const messages =await Message.findAll({
+                include:[    
+                    {
+                        model:User,
+                        attributes:['Name']
+                    }
+                ]
+            })
+            return res.status(200).json(messages);
+        }
+        else{
+            const messages =await Message.findAll({
+                where:{id :{[Op.gt]: lastmessageid}},
+                include:[    
+                    {
+                        model:User,
+                        attributes:['Name']
+                    }
+                ]
+            })
+            return res.status(200).json(messages);
+    }
+
     }
     catch(err){
         console.log(err)
