@@ -10,6 +10,8 @@ const sequelize = require('./util/database');
 
 const User=require('./models/user');
 const Message=require('./models/message');
+const Group=require('./models/group');
+const Usergroup=require('./models/usergroup');
 
 
 const cors=require('cors');
@@ -29,15 +31,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/message');
+const groupRoutes = require('./routes/group');
 
 
 
 app.use('/user', userRoutes);
 app.use('/message', messageRoutes);
+app.use('/group', groupRoutes);
 
 
 User.hasMany(Message);
 Message.belongsTo(User);
+Group.hasMany(Message);
+Message.belongsTo(Group);
+User.belongsToMany(Group, { through: Usergroup });
+
 
 sequelize
   // .sync({ force: true })
