@@ -6,25 +6,146 @@ const form=document.getElementById('form')
 const messagecls=document.getElementsByClassName('messagecls')
 const makegroup=document.getElementById('makegroup')
 const groups=document.getElementById('groups')
-const checkednames=document.getElementsByClassName('checkbox');
+const groupdatavalues=document.getElementsByClassName('addgroups');
+const groupdatavalues1=document.getElementsByClassName('addgroups1');
 const groupsubmitbtn=document.getElementById('groupsubmitbtn')
+const groupsubmitbtn1=document.getElementById('groupsubmitbtn1')
 const groupsinput=document.getElementById('groupsinput')
-const alreadygroups=document.getElementById('alreadygroups')
+const alreadygroups1=document.getElementById('alreadygroups1')
+const addmore=document.getElementById('addmore');
+const closegroup=document.getElementById('closegroup');
+const settings=document.getElementById('settings');
+const groupdata=document.getElementsByClassName('addgroupsdiv')[0];
+const admin=document.getElementById('admin')
+const participantsdiv=document.getElementById('participantsdiv')
+const addgroups1=document.getElementById('addgroups1')
+const closesettings=document.getElementById('closesettings')
+const logout=document.getElementById('logout')
+const leavegroup=document.getElementById('leavegroup')
+const deletegroup=document.getElementById('deletegroup')
+const type=document.getElementById('type')
 
 
-alreadygroups.addEventListener('click',async(e)=>{
+
+participantsdiv.addEventListener('click',async(e)=>{
+    try{
+        const token=localStorage.getItem('token');
+        const currentgroup=localStorage.getItem('currentgroup')
+        const value=e.target.parentElement.getAttribute('value');
+        if(e.target.className=='remove_btn'){ 
+            const response= await  axios.put(`http://localhost:3000/admin/deleteparticipants`,{currentgroup,value},{headers:{"Authorization" : token}})
+            alert(response.data.message)
+        }
+        if(e.target.className=='makeadmin_btn'){
+            const response= await  axios.put(`http://localhost:3000/admin/makeparticipants`,{currentgroup,value},{headers:{"Authorization" : token}})
+            alert(response.data.message)
+        }
+        if(e.target.className=='removeadmin'){
+            const response= await  axios.put(`http://localhost:3000/admin/deleteasadmin`,{currentgroup,value},{headers:{"Authorization" : token}})
+            alert(response.data.message)
+        }
+    }
+    catch(err){
+        throw new Error(err)
+    }
+   
+})
+
+
+addmore.addEventListener('click',()=>{
+
+    const addgroupsdiv1=document.createElement('div');
+    addgroupsdiv1.className='addgroupsdiv';
+    groups.insertBefore(addgroupsdiv1,addmore);
+
+    const input1=document.createElement('input')
+    input1.setAttribute('type','text')
+    input1.setAttribute('name','groupdata')
+    input1.setAttribute('placeholder','Name,Email,Phone-No.')
+    input1.className='addgroups';
+    addgroupsdiv1.appendChild(input1)
+
+    const removebtn1=document.createElement('button')
+    removebtn1.innerText='X';
+    removebtn1.className='removebtn'
+    addgroupsdiv1.appendChild(removebtn1)
+
+})
+
+groups.addEventListener('click',(e)=>{
+    if(e.target.className=='removebtn'){
+        e.target.parentElement.remove();
+    }
+})
+
+closegroup.addEventListener('click',(e)=>{
+    groups.style.display='none'
+    makegroup.style.display='block'
+})
+
+settings.addEventListener('click',(e)=>{
+    admin.style.display='flex'
+})
+
+closesettings.addEventListener('click',()=>{
+    admin.style.display='none'
+})
+
+
+logout.addEventListener('click',()=>{
+    const response = confirm("Are you sure want to Logout?");
+
+    if (response) {
+        window.localStorage.clear();
+        window.location.href="../loginpage/login.html"
+    }
+
+})
+
+leavegroup.addEventListener('click',async (e)=>{
+    const groupid=localStorage.getItem('currentgroup');
+    const token=localStorage.getItem('token');
+    const response= await  axios.put(`http://localhost:3000/admin/leavegroup`,{groupid},{headers:{"Authorization" : token}})
+    alert(response.data.message)
+//    if(response.status==200){
+//     window.location.reload()
+//    }
+   
+})
+deletegroup.addEventListener('click',async (e)=>{
+    const groupid=localStorage.getItem('currentgroup');
+    const token=localStorage.getItem('token');
+    const response= await  axios.put(`http://localhost:3000/admin/deletegroup`,{groupid},{headers:{"Authorization" : token}})
+              
+    alert(response.data.message)
+    // if(response.status==200){
+    //     window.location.reload()
+    // }
+    
+})
+
+
+
+
+
+
+
+
+
+alreadygroups1.addEventListener('click',async(e)=>{
 
     if(e.target.className=='groupdiv'){
-      const groupid= localStorage.getItem(`${e.target.innerText}`)
+      const groupid=e.target.getAttribute('value');
         localStorage.setItem('currentgroup',`${groupid}`)
-    
-
+       
+        settings.style.display='flex'
+        type.style.display='flex'
         
       let messages=[];
       stringifiedmessages=JSON.stringify(messages)
       localStorage.setItem('messages',stringifiedmessages)
-        clearInterval(refreshIntervalId)
-      var refreshIntervalId = setInterval( async () => {
+        clearInterval(refreshIntervalId1)
+      var refreshIntervalId1 = setInterval( async () => {
        
           const messagesstringified=localStorage.getItem('messages');
           const messages=JSON.parse(messagesstringified)
@@ -37,8 +158,10 @@ alreadygroups.addEventListener('click',async(e)=>{
           }
   
           const token=localStorage.getItem('token');
-          currentgroup=localStorage.getItem('currentgroup')
+          const currentgroup=localStorage.getItem('currentgroup')
           const response= await  axios.get(`http://localhost:3000/message/getmessage?lastmessageid=${lastmessageid}&groupid=${currentgroup}`,{headers:{"Authorization" : token}})
+          
+          
           let myarr = response.data;
           
           
@@ -46,11 +169,10 @@ alreadygroups.addEventListener('click',async(e)=>{
           messages.push({Message:response.data[i].Message,username:response.data[i].user.Name,id:response.data[i].id})
           if(messages.length>15){
               messages.shift();
-              console.log(messages)
           }
          }
   
-  
+         
          const messagesstringifiedagain=JSON.stringify(messages)
          localStorage.setItem('messages',`${messagesstringifiedagain}`)
           
@@ -59,74 +181,97 @@ alreadygroups.addEventListener('click',async(e)=>{
                       const message=messages[i].Message;
                       const username=messages[i].username;
                     createmessage(username,message);
-                  }            
-          
-         
+                  }    
+
+
+
+                  let admininfo=[]
+                  stringifiedadmininfo=JSON.stringify(admininfo)
+                  localStorage.setItem('admininfo',stringifiedadmininfo)
+                 const admindetails= await  axios.get(`http://localhost:3000/message/getadmin?groupid=${currentgroup}`,{headers:{"Authorization" : token}})
+                  console.log(admindetails)
+                  groupusers=admindetails.data[0].users
+
+                  for(let i=0;i<groupusers.length;i++){
+                    admininfo.push({isAdmin:groupusers[i].usergroup.isAdmin,username:groupusers[i].Name,id:groupusers[i].id})
+                   }
+                   stringifiedadmininfo=JSON.stringify(admininfo)
+                   localStorage.setItem('admininfo',stringifiedadmininfo)
+                   
+                   
+                   
+                   participantsdiv.innerHTML='';
+                  for (let i = 0; i < admininfo.length; i++) {
+                      const id=admininfo[i].id;
+                      const username=admininfo[i].username;
+                      const isAdmin=admininfo[i].isAdmin;
+                      createsettings(username,id,isAdmin);
+                  }    
+        
+
       }, 1000);
+    
+
+       
+        
     }
 
 })
 
 groupsubmitbtn.addEventListener('click',async()=>{
-    const participantsemail=[]
+    try{
+    const participantsdetails=[]
     const groupname=groupsinput.value
-    for(let i=0;i<checkednames.length;i++){
-        if(checkednames[i].checked==true){
-            participantsemail.push(checkednames[i].value);
+    for(let i=0;i<groupdatavalues.length;i++){
+        if(groupdatavalues[i].value!=""){
+        participantsdetails.push(groupdatavalues[i].value) ;
         }
-    }
+        }
     const token=localStorage.getItem('token');
-    const response= await  axios.post(`http://localhost:3000/group/postgroup`,{participantsemail,groupname},{headers:{"Authorization" : token}})
+    const response= await  axios.post(`http://localhost:3000/group/postgroup`,{participantsdetails,groupname},{headers:{"Authorization" : token}})
+   if(response.status==201){
+    console.log(response.data)
     creategroup(response.data.group)
-
-
-
-    
-   
+   }
+   else if(response.status==202){
+    alert(response.data.message)
+   }
 }
+catch(err){
+    throw new Error(err)
+}
+}
+
 )
 
+groupsubmitbtn1.addEventListener('click',async()=>{
+    try{
+    const groupid=localStorage.getItem('currentgroup')
+   const  participantsdetails=addgroups1.value
+   
+   
+    const token=localStorage.getItem('token');
+    const response= await  axios.post(`http://localhost:3000/admin/addAparticipant`,{participantsdetails,groupid},{headers:{"Authorization" : token}})
+    addgroups1.value=''
+    if(response.status==201){
+        alert(response.data.message)
+   }
+   else if(response.status==202){
+    alert(response.data.message)
+   }
+}
+catch(err){
+    throw new Error(err)
+}
+}
+
+)
 
 
 makegroup.addEventListener('click',async()=>{
     try{
-
     makegroup.style.display='none'
     groups.style.display='flex'
-    const token=localStorage.getItem('token');
-    const response= await  axios.get(`http://localhost:3000/group/getparticipants`,{headers:{"Authorization" : token}})
-    
-    if(response.status==201){
-
-        user=response.data;
-
-        for(let i=0;i<user.length;i++){
-            const useremail=user[i].Email;
-            const username=user[i].Name;
-    
-            const participantsdiv=document.createElement('div')
-            participantsdiv.className='participantsdiv'
-            groups.insertBefore(participantsdiv,groupsubmitbtn)
-    
-            const label=document.createElement('label')
-            label.className='label'
-            label.setAttribute('for',`${username}`)
-            label.innerText=`${username}`;
-    
-            const checkbox=document.createElement('input');
-            checkbox.setAttribute('type','checkbox');
-            checkbox.id=`${username}`;
-            checkbox.className='checkbox'
-            checkbox.setAttribute('value',`${useremail}`)
-    
-            participantsdiv.appendChild(label)
-            participantsdiv.appendChild(checkbox)
-    
-    
-        }
-    }
-
-
 }
 
 catch(err){
@@ -141,16 +286,39 @@ catch(err){
 
 
 window.addEventListener('DOMContentLoaded',async ()=>{
-    
-    let messages=[];
-    stringifiedmessages=JSON.stringify(messages)
-    localStorage.setItem('messages',stringifiedmessages)
+    localStorage.setItem('currentgroup','')
+    // let localgroups=[];
+    // stringifiedmessages=JSON.stringify(localgroups)
+    // localStorage.setItem('localgroups',stringifiedmessages)
+    clearInterval(refreshIntervalId)
+    var refreshIntervalId = setInterval( async () => {
+        
+        // const localgroupsstringified=localStorage.getItem('localgroups');
+        // const localgroups=JSON.parse(localgroupsstringified)
 
         const token=localStorage.getItem('token');
         const response= await  axios.get(`http://localhost:3000/group/getgroups`,{headers:{"Authorization" : token}})
         
         const groups=response.data
-        console.log(groups)
+       
+
+        // for(let i=0;i<groups.length;i++){
+        //     localgroups.push({isAdmin:groupusers[i].usergroup.isAdmin,username:groupusers[i].Name,id:groupusers[i].id})
+        //  }
+        //  stringifiedlocalgroups=JSON.stringify(localgroups)
+        //  localStorage.setItem('localgroups',stringifiedlocalgroups)
+         
+         
+         
+         alreadygroups1.innerHTML='';
+      
+
+
+
+
+
+
+       
         for(let i=0;i<groups.length;i++){
             creategroup(groups[i]);
         }
@@ -158,11 +326,20 @@ window.addEventListener('DOMContentLoaded',async ()=>{
    
     
 
+},1000)
 })
 
 const createmessage=(by,text)=>{
+    const token=localStorage.getItem('token');
+    const decodetoken=parseJwt(token)
+    const username=decodetoken.name;
     const messagediv=document.createElement('div');
-    messagediv.className='messagecls'
+    if(by==username){
+        messagediv.className='messageclsR'
+    }else{
+        messagediv.className='messageclsL'
+    }
+   
     const messagep=document.createElement('p')
     messagep.textContent=`${by} : ${text}`
     messagediv.appendChild(messagep)
@@ -198,8 +375,51 @@ function creategroup(groups){
     const groupdiv=document.createElement('div')
     groupdiv.className='groupdiv';
     groupdiv.innerText=`${groups.GroupName}`
-    alreadygroups.appendChild(groupdiv)
-    localStorage.setItem(`${groups.GroupName}`,`${groups.id}`)
+    alreadygroups1.appendChild(groupdiv)
+    groupdiv.setAttribute('value',`${groups.id}`)
+
+}
+
+function createsettings(username,id,isAdmin){
+    
+    
+    
+    const div=document.createElement('div')
+    div.className='participantsinfo';
+    div.setAttribute('value',`${id}`)
+    participantsdiv.appendChild(div);
+
+    const h4=document.createElement('h4');
+    h4.innerText=`${username}`
+    div.appendChild(h4)
+    
+   
+    const remove_btn=document.createElement('button');
+    remove_btn.className='remove_btn';
+    remove_btn.innerText='Kick'
+    div.appendChild(remove_btn);
+    
+
+    if(isAdmin!=true){
+    const makeadmin_btn=document.createElement('button');
+    makeadmin_btn.className='makeadmin_btn';
+    makeadmin_btn.innerText='+'
+    div.appendChild(makeadmin_btn);
+    }
+
+
+    if(isAdmin==true){
+        const Admin=document.createElement('h4')
+        Admin.innerText='ADMIN'
+        Admin.className='admintext';
+        div.appendChild(Admin)
+
+        const removeadmin=document.createElement('button')
+        removeadmin.innerText='Remove From Admin'
+        removeadmin.className='removeadmin';
+        div.appendChild(removeadmin)
+    }
+    
 
 }
 

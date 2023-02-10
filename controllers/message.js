@@ -1,9 +1,11 @@
 
 const User=require('../models/user');
 const Message=require('../models/message');
+const Group=require('../models/group');
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken')
 const Sequelize = require('sequelize');
+const Usergroup = require('../models/usergroup');
 const Op = Sequelize.Op;
 
 const isstringvalid=(string)=>{
@@ -36,7 +38,7 @@ exports.postmessage=(req,res,next)=>{
 exports.getmessage=async (req,res,next)=>{
     try{
        const {lastmessageid,groupid}=req.query
-        
+       
         if(lastmessageid==-1){
             const messages =await Message.findAll({
 
@@ -70,6 +72,31 @@ exports.getmessage=async (req,res,next)=>{
         res.status(500).json({err})
     }
      
+}
+
+exports.getadmin=async (req,res,next)=>{
+    try{
+        const groupid=req.query.groupid;
+
+        const groupdetails=await Group.findAll({
+            where:{id:groupid},
+            attributes:[],
+            include:{
+                model:User,
+                attributes:['Name','id'],
+                through:{
+                    attributes:['isAdmin']
+                }
+            }
+        })
+        
+        res.json(groupdetails)
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({message:'some error occured',err})
+    }
+   
 }
 
 

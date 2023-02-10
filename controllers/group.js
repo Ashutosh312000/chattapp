@@ -9,7 +9,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 const isstringvalid=(string)=>{
-    if(string=="" || string==undefined){
+    if(string=='' || string==undefined){
         return true;
     }
     else{
@@ -33,25 +33,44 @@ exports.postgroup=async(req,res,next)=>{
     try{
 
         const groupname=req.body.groupname;
-       const participantsemail=req.body.participantsemail;
+       const oldparticipantsdetails=req.body.participantsdetails;
+       const participantsdetails=oldparticipantsdetails.filter(ele=>{
+        if(ele!="")
+        return ele
+    })
 
        if(isstringvalid(groupname)){
-        return res.json({message:'Fill Up The Group Name'})
+        return res.status(202).json({message:'Fill Up The Group Name'})
      }
-       else if(participantsemail.length<1){
-        return res.json({message:'Add Atlest One Participant'})
+       else if(participantsdetails.length<1){
+        return res.status(202).json({message:'Add Atlest One Participant'})
      }
 
+     
+
         else{
-            participantsemail.push(req.user.Email)
+
+            participantsdetails.push(req.user.Email)
             const id=uuid.v4();
             const group= await Group.create({GroupName:groupname,id:id});
-            const users=await  User.findAll({where:{Email:participantsemail}})
+            const users=await  User.findAll({where:{
+                [Op.or]:[
+                    {Email:participantsdetails},
+                {Name:participantsdetails},
+                {Phone_No:participantsdetails},
+                ]
+                
+            }})
+           
             for(let i=0;i<users.length;i++){
-               await Usergroup.create({groupId:group.id,userId:users[i].id})
+                let admin=false;
+                if(users[i].id==req.user.id){
+                    admin=true;
+                }
+               await Usergroup.create({groupId:group.id,userId:users[i].id,isAdmin:admin})
             }
             
-            return res.json({message:'Updated',group:group})
+            return res.status(201).json({message:'Updated',group:group})
         }
        
       
@@ -77,6 +96,6 @@ exports.getgroups=async (req,res,next)=>{
     }
     catch(err){
         console.log(err)
-            return res.json({message:'Some Error occured',err})
+            return res.status(501).json({message:'Some Error occured',err})
     }
 }

@@ -32,19 +32,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/message');
 const groupRoutes = require('./routes/group');
+const adminRoutes = require('./routes/admin');
 
 
 
 app.use('/user', userRoutes);
 app.use('/message', messageRoutes);
 app.use('/group', groupRoutes);
+app.use('/admin', adminRoutes);
 
 
 User.hasMany(Message);
-Message.belongsTo(User);
+Message.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 Group.hasMany(Message);
-Message.belongsTo(Group);
+Message.belongsTo(Group, { constraints: true, onDelete: 'CASCADE' });
 User.belongsToMany(Group, { through: Usergroup });
+Group.belongsToMany(User, { through: Usergroup });
 
 
 sequelize
