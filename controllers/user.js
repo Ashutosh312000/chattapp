@@ -28,7 +28,7 @@ exports.postuser=(req,res,next)=>{
             res.status(201).json({message:'Your Account Is Created Please Login Now'});
           })
           .catch((err)=>{
-            res.json({message:'Email Already Exists'})
+            res.json({message:'Email/Phone.No Already Exists'})
         })    
         })
     }

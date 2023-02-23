@@ -12,6 +12,7 @@ const User=require('./models/user');
 const Message=require('./models/message');
 const Group=require('./models/group');
 const Usergroup=require('./models/usergroup');
+const Forgotpasswordreq=require('./models/forgotpassword');
 
 
 const cors=require('cors');
@@ -33,13 +34,14 @@ const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/message');
 const groupRoutes = require('./routes/group');
 const adminRoutes = require('./routes/admin');
-
+const passwordRoutes = require('./routes/password');
 
 
 app.use('/user', userRoutes);
 app.use('/message', messageRoutes);
 app.use('/group', groupRoutes);
 app.use('/admin', adminRoutes);
+app.use('/password', passwordRoutes);
 
 
 User.hasMany(Message);
@@ -48,7 +50,8 @@ Group.hasMany(Message);
 Message.belongsTo(Group, { constraints: true, onDelete: 'CASCADE' });
 User.belongsToMany(Group, { through: Usergroup });
 Group.belongsToMany(User, { through: Usergroup });
-
+User.hasMany(Forgotpasswordreq);
+Forgotpasswordreq.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 
 sequelize
   // .sync({ force: true })

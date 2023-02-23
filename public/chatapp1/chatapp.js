@@ -1,10 +1,112 @@
+const settings=document.getElementById('settings');
+const section2=document.getElementById('section2');
+const section3=document.getElementById('section3');
+const makegroup=document.getElementById('makegroup');
+const chatnames=document.getElementById('chatnames');
+const chatnameh3=document.getElementById('chatnameh3');
+const makinggroups=document.getElementById('makinggroups');
+const closegroup=document.getElementById('closegroup');
+const closesettings=document.getElementById('closesettings');
+
+
+settings.addEventListener('click',(e)=>{
+    section3.style.display=='none'
+    if(section3.style.display=='none'){
+        section2.className='col-xl-6 border border-5 rounded border-primary'
+         section3.style.display='block'
+    }
+    else{
+        section2.className='col-xl-9 border border-5 rounded border-primary'
+        section3.style.display='none'
+    }
+    
+})
+
+makegroup.addEventListener('click',(e)=>{
+    chatnames.style.display='none'
+    makinggroups.style.display='block'
+    
+})
+closegroup.addEventListener('click',(e)=>{
+    chatnames.style.display='block'
+    makinggroups.style.display='none'
+    
+})
+closesettings.addEventListener('click',(e)=>{
+    section3.style.display='none'
+    section2.className='col-xl-9 border border-5 rounded border-primary'
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const message=document.getElementById('messages');
 const sendbtn=document.getElementById('sendbtn')
 const form=document.getElementById('form')
 const messagecls=document.getElementsByClassName('messagecls')
-const makegroup=document.getElementById('makegroup')
+// const makegroup=document.getElementById('makegroup')
 const groups=document.getElementById('groups')
 const groupdatavalues=document.getElementsByClassName('addgroups');
 const groupdatavalues1=document.getElementsByClassName('addgroups1');
@@ -13,13 +115,13 @@ const groupsubmitbtn1=document.getElementById('groupsubmitbtn1')
 const groupsinput=document.getElementById('groupsinput')
 const alreadygroups1=document.getElementById('alreadygroups1')
 const addmore=document.getElementById('addmore');
-const closegroup=document.getElementById('closegroup');
-const settings=document.getElementById('settings');
+// const closegroup=document.getElementById('closegroup');
+// const settings=document.getElementById('settings');
 const groupdata=document.getElementsByClassName('addgroupsdiv')[0];
 const admin=document.getElementById('admin')
 const participantsdiv=document.getElementById('participantsdiv')
 const addgroups1=document.getElementById('addgroups1')
-const closesettings=document.getElementById('closesettings')
+// const closesettings=document.getElementById('closesettings')
 const logout=document.getElementById('logout')
 const leavegroup=document.getElementById('leavegroup')
 const deletegroup=document.getElementById('deletegroup')
@@ -34,16 +136,26 @@ participantsdiv.addEventListener('click',async(e)=>{
         const currentgroup=localStorage.getItem('currentgroup')
         const value=e.target.parentElement.getAttribute('value');
         if(e.target.className=='remove_btn'){ 
-            const response= await  axios.put(`http://localhost:3000/admin/deleteparticipants`,{currentgroup,value},{headers:{"Authorization" : token}})
-            alert(response.data.message)
+            const alert1 = confirm("Are you sure want to Kick?");
+            if(alert1==true){
+                const response= await  axios.put(`http://localhost:3000/admin/deleteparticipants`,{currentgroup,value},{headers:{"Authorization" : token}})
+                alert(response.data.message)
+            }
+           
         }
         if(e.target.className=='makeadmin_btn'){
+            const alert1 = confirm("Are you sure want to Make Admin?");
+            if(alert1==true){
             const response= await  axios.put(`http://localhost:3000/admin/makeparticipants`,{currentgroup,value},{headers:{"Authorization" : token}})
             alert(response.data.message)
+            }
         }
         if(e.target.className=='removeadmin'){
+            const alert1 = confirm("Are you sure want to remove a Admin?");
+            if(alert1==true){
             const response= await  axios.put(`http://localhost:3000/admin/deleteasadmin`,{currentgroup,value},{headers:{"Authorization" : token}})
             alert(response.data.message)
+            }
         }
     }
     catch(err){
@@ -62,7 +174,7 @@ addmore.addEventListener('click',()=>{
     const input1=document.createElement('input')
     input1.setAttribute('type','text')
     input1.setAttribute('name','groupdata')
-    input1.setAttribute('placeholder','Name,Email,Phone-No.')
+    input1.setAttribute('placeholder','Email,Phone-No.')
     input1.className='addgroups';
     addgroupsdiv1.appendChild(input1)
 
@@ -84,13 +196,9 @@ closegroup.addEventListener('click',(e)=>{
     makegroup.style.display='block'
 })
 
-settings.addEventListener('click',(e)=>{
-    admin.style.display='flex'
-})
 
-closesettings.addEventListener('click',()=>{
-    admin.style.display='none'
-})
+
+
 
 
 logout.addEventListener('click',()=>{
@@ -104,25 +212,31 @@ logout.addEventListener('click',()=>{
 })
 
 leavegroup.addEventListener('click',async (e)=>{
-    const groupid=localStorage.getItem('currentgroup');
-    const token=localStorage.getItem('token');
-    const response= await  axios.put(`http://localhost:3000/admin/leavegroup`,{groupid},{headers:{"Authorization" : token}})
-    alert(response.data.message)
-//    if(response.status==200){
-//     window.location.reload()
-//    }
+    const alert1 = confirm("Are you sure want to Leave Group?");
+    if(alert1==true){
+        const groupid=localStorage.getItem('currentgroup');
+        const token=localStorage.getItem('token');
+        const response= await  axios.put(`http://localhost:3000/admin/leavegroup`,{groupid},{headers:{"Authorization" : token}})
+        alert(response.data.message)
+       if(response.status==200){
+        window.location.reload()
+       }
+    }
+   
    
 })
 deletegroup.addEventListener('click',async (e)=>{
+    const alert1 = confirm("Are you sure want to delete Group?");
+    if(alert1==true){
     const groupid=localStorage.getItem('currentgroup');
     const token=localStorage.getItem('token');
     const response= await  axios.put(`http://localhost:3000/admin/deletegroup`,{groupid},{headers:{"Authorization" : token}})
               
     alert(response.data.message)
-    // if(response.status==200){
-    //     window.location.reload()
-    // }
-    
+    if(response.status==200){
+        window.location.reload()
+    }
+}
 })
 
 
@@ -139,7 +253,7 @@ alreadygroups1.addEventListener('click',async(e)=>{
       const groupid=e.target.getAttribute('value');
         localStorage.setItem('currentgroup',`${groupid}`)
        
-        settings.style.display='flex'
+        settings.style.display='inline-block'
         type.style.display='flex'
         
       let messages=[];
@@ -164,10 +278,9 @@ alreadygroups1.addEventListener('click',async(e)=>{
           
           
           let myarr = response.data;
-          
-          
+        
          for(let i=0;i<myarr.length;i++){
-          messages.push({Message:response.data[i].Message,username:response.data[i].user.Name,id:response.data[i].id})
+          messages.push({Message:response.data[i].Message,username:response.data[i].user.Name,id:response.data[i].id,isLink:response.data[i].IsLink,filetype:response.data[i].filetype})
           if(messages.length>15){
               messages.shift();
           }
@@ -181,7 +294,15 @@ alreadygroups1.addEventListener('click',async(e)=>{
                   for (let i = 0; i < messages.length; i++) {
                       const message=messages[i].Message;
                       const username=messages[i].username;
-                    createmessage(username,message);
+                      const filetype=messages[i].filetype;
+                      if(messages[i].isLink==true){
+                        console.log('bye')
+                        createLink(username,message,filetype)
+                      }
+                      else{
+                        createmessage(username,message);
+                      }
+                    
                   }    
 
 
@@ -192,7 +313,7 @@ alreadygroups1.addEventListener('click',async(e)=>{
                  const admindetails= await  axios.get(`http://localhost:3000/message/getadmin?groupid=${currentgroup}`,{headers:{"Authorization" : token}})
                  
                   groupusers=admindetails.data[0].users
-
+                 
                   for(let i=0;i<groupusers.length;i++){
                     admininfo.push({isAdmin:groupusers[i].usergroup.isAdmin,username:groupusers[i].Name,id:groupusers[i].id})
                    }
@@ -231,8 +352,9 @@ groupsubmitbtn.addEventListener('click',async()=>{
     const token=localStorage.getItem('token');
     const response= await  axios.post(`http://localhost:3000/group/postgroup`,{participantsdetails,groupname},{headers:{"Authorization" : token}})
    if(response.status==201){
-    console.log(response.data)
+    
     creategroup(response.data.group)
+    alert(response.data.message)
    }
    else if(response.status==202){
     alert(response.data.message)
@@ -285,7 +407,7 @@ catch(err){
 
 
 
-
+//as soon as user logged in you get all the chats of the user 
 window.addEventListener('DOMContentLoaded',async ()=>{
     localStorage.setItem('currentgroup','')
     // let localgroups=[];
@@ -298,10 +420,13 @@ window.addEventListener('DOMContentLoaded',async ()=>{
         // const localgroups=JSON.parse(localgroupsstringified)
 
         const token=localStorage.getItem('token');
+        const decodetoken=parseJwt(token)
+    const username=decodetoken.name;
+    chatnameh3.innerText=`${username}`;
         const response= await  axios.get(`http://localhost:3000/group/getgroups`,{headers:{"Authorization" : token}})
         
         const groups=response.data
-       
+     
 
         // for(let i=0;i<groups.length;i++){
         //     localgroups.push({isAdmin:groupusers[i].usergroup.isAdmin,username:groupusers[i].Name,id:groupusers[i].id})
@@ -330,6 +455,17 @@ window.addEventListener('DOMContentLoaded',async ()=>{
 },1000)
 })
 
+//you show the group names in which current user is a participant(left box)
+function creategroup(groups){
+
+    const groupdiv=document.createElement('div')
+    groupdiv.className='groupdiv';
+    groupdiv.innerText=`${groups.GroupName}`
+    alreadygroups1.appendChild(groupdiv)
+    groupdiv.setAttribute('value',`${groups.id}`)
+
+}
+
 const createmessage=(by,text)=>{
     const token=localStorage.getItem('token');
     const decodetoken=parseJwt(token)
@@ -345,6 +481,37 @@ const createmessage=(by,text)=>{
     messagep.textContent=`${by} : ${text}`
     messagediv.appendChild(messagep)
     message.appendChild(messagediv)
+}
+
+const createLink=(by,text,filetype)=>{
+    const token=localStorage.getItem('token');
+    const decodetoken=parseJwt(token)
+    const username=decodetoken.name;
+    console.log(filetype)
+    const messagediv=document.createElement('div');
+    if(by==username){
+        messagediv.className='messageclsR'
+        
+    }else{
+        messagediv.className='messageclsL'
+    }
+   
+    if(filetype=='image'){
+      
+        const messagep=document.createElement('p')
+        const messageimg=document.createElement('img')
+        const messagea=document.createElement('a')
+        messagea.setAttribute('href',`${text}`)
+        messagea.setAttribute('target',`_blank`)
+        messageimg.setAttribute('width','130')
+        messageimg.setAttribute('height','130')
+        messageimg.setAttribute('src',`${text}`)
+        messagep.textContent=`${by}`
+        messagep.appendChild(messagea)
+        messagea.appendChild(messageimg)
+        messagediv.appendChild(messagep)
+        message.appendChild(messagediv)
+    }
 }
 
 function parseJwt (token) {
@@ -388,15 +555,6 @@ fileform.addEventListener('submit', async function (e) {
 
 
 
-function creategroup(groups){
-
-    const groupdiv=document.createElement('div')
-    groupdiv.className='groupdiv';
-    groupdiv.innerText=`${groups.GroupName}`
-    alreadygroups1.appendChild(groupdiv)
-    groupdiv.setAttribute('value',`${groups.id}`)
-
-}
 
 function createsettings(username,id,isAdmin){
     
@@ -440,6 +598,9 @@ function createsettings(username,id,isAdmin){
     
 
 }
+
+
+
 
 
 

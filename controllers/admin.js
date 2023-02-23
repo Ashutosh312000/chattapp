@@ -105,7 +105,6 @@ exports.addAparticipant=async(req,res,next)=>{
                            const users=await  User.findAll({where:{
                                [Op.or]:[
                                    {Email:participantsdetails},
-                               {Name:participantsdetails},
                                {Phone_No:participantsdetails},
                                ]
                                
@@ -119,6 +118,9 @@ exports.addAparticipant=async(req,res,next)=>{
                             else{
                                 res.status(201).json({message:'Participant is Added'})
                                }
+                           }
+                           else{
+                            res.status(201).json({message:'No Participant Found of this Email/PhoneNo.'})
                            }
                          
 

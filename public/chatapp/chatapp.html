@@ -26,7 +26,7 @@
         </div>
         <h4 id="addparticipantsh4">Add More Participants</h4>
         <div class="addgroupsdiv1">
-            <input  placeholder="Name,Email,Phone-No." id=addgroups1 name="groupdata" type="text">
+            <input  placeholder="Email,Phone-No." id=addgroups1 name="groupdata" type="text">
         </div>
         <button id="groupsubmitbtn1" type="submit"> Add +</button>
     </div>
@@ -58,6 +58,11 @@
                 <input  id="typetext" name="message" type="text" required>
                 <button type="submit" id="sendbtn">SEND</button>
             </form>
+            
+            <form  id="uploadForm" method="post" action="http://localhost:3000/message/postfile" enctype="multipart/form-data" >
+                <input type="file" name="inputFile" accept="image/*"/>
+                <button id="submitfile" type="submit">Submit</button>
+             </form>
         </div>
     </section>
 

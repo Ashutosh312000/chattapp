@@ -7,16 +7,16 @@ document.addEventListener('submitbtn', (e) => {
     e.preventDefault();
 });
 
-const loginmessage=(message)=>{
-    var loginMessage=document.createElement('div');
-        loginMessage.className='loginmessage';
-        loginMessage.textContent=`${message}`;
-        form.insertBefore(loginMessage,submitbtn)
+// const loginmessage=(message)=>{
+//     var loginMessage=document.createElement('div');
+//         loginMessage.className='loginmessage';
+//         loginMessage.textContent=`${message}`;
+//         form.insertBefore(loginMessage,submitbtn)
 
-        setTimeout(() => {
-            loginMessage.remove();
-        }, 2000);
-}
+//         setTimeout(() => {
+//             loginMessage.remove();
+//         }, 2000);
+// }
 
 async function  login(e){
     try{
@@ -33,10 +33,10 @@ async function  login(e){
     .then((response)=>{
         localStorage.setItem('token',`${response.data.token}`) 
         alert(`${response.data.message}`);
-        window.location.href="../chatapp/chatapp.html" 
+        window.location.href="../chatapp1/chatapp.html" 
     })
     .catch(err=>{
-        loginmessage(err.response.data.message);
+        alert(`${err.response.data.message}`);
     });
 
     }

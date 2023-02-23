@@ -1,0 +1,339 @@
+
+body{
+  background-color: #54a8f0;
+}
+
+#chatnames{
+    background-image: url(../img/1f135a074a169f90e5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section3{
+    display: none;
+    background-image: url(../img/1f135a074a169f90e5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section2{
+    
+    height: 100vh;
+    position: relative;
+    padding: 0px;
+    background-image: url(../img/1f135a074a169f90e5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#makegroup{
+   
+
+    display: block;
+    border: 2px solid #101739;
+    padding: 5px;
+    color: white;
+    border-radius: 9px;
+    background-color: #0c114a;
+    cursor: pointer;
+    margin: auto;
+}
+
+#alreadygroups1{
+    margin-bottom:5% ;
+    overflow-y: scroll;
+    height: 50%;
+}
+
+#groups{
+    flex-direction: column;
+}
+
+.groupdiv{
+    text-align: center;
+    margin: 3%;
+    padding: 1%;
+    border-radius: 4px;
+    color: darkblue;
+    background-color: #d4d4e0;
+    cursor: pointer;
+}
+
+#makinggroups{
+    display: none;
+    background-image: url(../img/1f135a074a169f90e5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#makinggroups h3, #makinggroups h4{
+    color: white;
+}
+#section3 h3, #section3 h4{
+    color: white;
+}
+
+#type{
+    display: none;
+        width: 100%;
+    position: absolute;
+
+}
+
+#form{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 0.7%;
+    justify-content: center;
+}
+#uploadForm{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 0.7%;
+    justify-content: center;
+}
+
+
+#typetext{
+    width: 66%;
+    color: white;
+    background: transparent;
+    border: 2px solid white
+}
+
+
+
+
+
+
+
+#sendbtn {
+    padding: 0.2%;
+    margin-left: 0.5%;
+    width: 15%;
+    font-size: 80%;
+}
+
+#submitfile{
+    width: 25%;
+    margin: 0px;
+    padding: -11px;
+    font-size: 80%;
+}
+
+#inputfile{
+    width: 50%;
+   
+}
+
+#closegroup {
+    width: 12%;
+    height: 20px;
+    margin-right: 5px;
+    background-color: #54a8f0;
+    border: 0px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    left: 45%;
+    top: 2%;
+}
+
+.removebtn {
+    width: 11%;
+    margin-right: 5px;
+    background-color: red;
+    border: 0px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+#groupsinput, .addgroups {
+    width: 75%;
+    height: 5%;
+    margin: auto;
+    padding: 2px 0px;
+}
+
+#addmore {
+    width: 11%;
+    margin: auto;
+    margin-top: 2%;
+    border-radius: 10px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+#groupsubmitbtn {
+    width: 50%;
+    margin: auto;
+    margin: 5% 25%;
+    border: 2px solid gold;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: bold;
+    color: #141460;
+    font-weight: bold;
+    background-color: gold;
+}
+
+#groupsubmitbtn1 {
+    width: 25%;
+    margin: 2% 40%;
+    border: 3px solid gold;
+    border-radius: 6px;
+    padding: 0px;
+    color: #141460;
+    font-weight: bold;
+    background-color: gold;
+}
+
+#leavegroup {
+    width: 33%;
+    padding: 1%;
+    /* right: 1%;
+    top: 25%;
+    width: 20%;
+    margin: auto;
+    background-color: #ef2626;
+    border: 0px;
+    border-radius: 20px;
+    font-size: 12px;
+    bottom: 19px;
+    left: 260px;
+    cursor: pointer; */
+}
+#deletegroup {
+    width: 33%;
+    padding: 1%;
+}
+#leavegroup {
+    width: 33%
+    /* padding: 1%; */
+}
+
+#settings{
+    display: none;
+}
+
+#chattop{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: end;
+
+}
+
+
+#closesettings {
+    width: 9%;
+    height: 20px;
+    margin-right: 5px;
+    background-color: #ef2626;
+    border: 0px;
+    border-radius: 20px;
+    font-size: 12px;
+    position: relative;
+    bottom: 39px;
+    left: 120px;
+    cursor: pointer;
+}
+
+.participantsinfo {
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+}
+
+#participantsdiv{
+    overflow-y: scroll;
+    height: 50%;
+}
+
+.remove_btn {
+    cursor: pointer;
+    margin-left: 5%;
+    border: none;
+    width: 15%;
+    background: red;
+    border-radius: 10px;
+}
+
+.makeadmin_btn {
+    cursor: pointer;
+    margin-left: 5%;
+    border: none;
+    width: 10%;
+    background: rgb(163, 193, 200);
+    border-radius: 10px;
+}
+
+#chatnames h3{
+    color: white;
+}
+
+#messages p{
+    margin: 0px;
+    text-align: left;
+    
+    
+}
+
+#messages{
+    overflow-y: scroll;
+    height: 80%;
+}
+
+.messageclsL{
+    background-color: rgb(80 49 63);
+    padding: 0.5%;
+    border-radius: 7px;
+    margin-left: auto;
+    width: 50%;
+    color: white;
+}
+.messageclsR{
+    background-color: rgb(124 94 137);
+    padding: 0.5%;
+    border-radius: 7px;
+    margin: 1%;
+    width: 50%;
+}
+
+.removeadmin{
+    cursor: pointer;
+    margin-left: 2%;
+    border: none;
+    width: 29%;
+    font-size: 8px;
+    background: red;
+    border-radius: 10px;
+}
+
+.admintext{
+    margin-left: 2%;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

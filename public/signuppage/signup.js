@@ -3,7 +3,7 @@ async function  signup(e){
     try{
      e.preventDefault();
     const name=e.target.name.value;
-    const phoneno=e.target.name.value;
+    const phoneno=e.target.phoneno.value;
     const email=e.target.email.value;
     const password=e.target.password.value;
     

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./chatapp.css">
+  </head>
+  <body>
+    <div class="container text-center">
+        <div class="row">
+          <div id="makinggroups" class="col-xl-3 border border-5 rounded border-primary">
+            <button id="closegroup">X</button>
+            <h3>Make A Group</h3>
+            <div id="groups">
+             
+              
+              <input id="groupsinput" name="groupname" placeholder="Group Name" type="text" required="">
+              <h4>Add Participants</h4>
+              <div class="addgroupsdiv">
+                  <input placeholder="Email,Phone-No." class="addgroups" name="groupdata" type="text">
+                  <button class="removebtn" "="">X</button>
+              </div>
+              
+              <button id="addmore">+</button>
+              <button id="groupsubmitbtn" type="submit">Create Now</button>
+          </div>
+        
+          </div>
+          <div id="chatnames" class="col-xl-3 border border-5 rounded border-primary">
+            <h3 id="chatnameh3"></h3>
+        <div id="alreadygroups1" > 
+         
+        </div>
+        <button id="makegroup" style="display: block;">Create A New Group</button>
+          </div>
+          <div id="section2" class="col-xl-9  border border-5 rounded border-primary">
+            <div id="chattop" class="sticky-xl-top">
+              <button id="settings"><img src="../img/setting.png" alt="Settings"> </button>
+              <button id="logout" type="button" class="btn btn-danger">Logout</button>
+          </div>
+          
+            <div id="messages">
+
+            </div>
+      
+         
+        
+          <div id="type" class="sticky-xl-bottom">
+            <form id="form" onsubmit="send(event)">
+                <input id="typetext" name="message" type="text" required="">
+                <button type="submit" class="btn btn-dark"  id="sendbtn">SEND</button>
+            </form>
+            
+            <form id="uploadForm" method="post" action="http://localhost:3000/message/postfile" enctype="multipart/form-data">
+                <input id="inputfile"  type="file" name="inputFile" accept="image/*">
+                <button id="submitfile" class="btn btn-dark" type="submit">SEND</button>
+             </form>
+        </div>
+          </div>
+
+          
+          <div id="section3" class="col-xl-3 border border-5 rounded border-primary" style="display: none;">
+            <div id="admin">
+
+              <h3>SETTINGS</h3>
+              <button id="closesettings">X</button>
+              <div id="btndiv">
+                <button id="leavegroup" type="button" class="btn btn-danger">Leave </button>
+              <button id="deletegroup" class="btn btn-danger">Delete</button>
+              </div>
+              
+              
+              <h3>Participants</h3>
+              <div id="participantsdiv">
+                 
+              </div>
+              <h4 id="addparticipantsh4">Add More Participants</h4>
+              <div class="addgroupsdiv1">
+                  <input placeholder="Email,Phone-No." id="addgroups1" name="groupdata" type="text">
+              </div>
+              <button id="groupsubmitbtn1" type="submit"> Add +</button>
+          </div>
+          </div>
+        </div>
+      </div>
+      <script src="./chatapp.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

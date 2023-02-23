@@ -14,6 +14,18 @@ const Message = sequelize.define('message', {
     type: Sequelize.STRING,
     allowNull:false,
   },
+  IsLink: {
+    type: Sequelize.BOOLEAN,
+    allowNull:false,
+  },
+  filename: {
+    type: Sequelize.STRING,
+    allowNull:true,
+  },
+  filetype: {
+    type: Sequelize.STRING,
+    allowNull:true,
+  },
 });
 
 module.exports = Message;

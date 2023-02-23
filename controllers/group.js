@@ -56,7 +56,6 @@ exports.postgroup=async(req,res,next)=>{
             const users=await  User.findAll({where:{
                 [Op.or]:[
                     {Email:participantsdetails},
-                {Name:participantsdetails},
                 {Phone_No:participantsdetails},
                 ]
                 
@@ -70,7 +69,7 @@ exports.postgroup=async(req,res,next)=>{
                await Usergroup.create({groupId:group.id,userId:users[i].id,isAdmin:admin})
             }
             
-            return res.status(201).json({message:'Updated',group:group})
+            return res.status(201).json({message:'Group is created',group:group})
         }
        
       
